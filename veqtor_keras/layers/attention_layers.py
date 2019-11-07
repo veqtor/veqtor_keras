@@ -8,6 +8,7 @@ from veqtor_keras.util import localized_attention
 
 
 class LocalizedAttentionLayer1D(tfkl.Layer):
+
     def __init__(self,
                  patch_size=3,
                  num_heads=1,
@@ -15,6 +16,18 @@ class LocalizedAttentionLayer1D(tfkl.Layer):
                  dilation=1,
                  padding='same',
                  preshaped_q=True, **kwargs):
+        """
+            Args:
+                patch_size: size of patches to perform localized attention within
+                num_heads: number of attention heads
+                strides: the stride of the patch window, stride 2 halves output
+                dilations: the dilation of the patch window
+                padding: one of 'same' or 'valid'
+                preshaped_q: True if q matches strided and padded kv
+                    ex: kv: [B, 4, C]
+                        stride = 2
+                        q must be [B,2,C]
+        """
         super(LocalizedAttentionLayer1D, self).__init__(**kwargs)
         self.patch_size = patch_size
         self.num_heads = num_heads
@@ -50,6 +63,7 @@ class LocalizedAttentionLayer1D(tfkl.Layer):
 
 
 class LocalizedAttentionLayer2D(tfkl.Layer):
+
     def __init__(self,
                  patch_size=(3, 3),
                  num_heads=1,
@@ -57,6 +71,18 @@ class LocalizedAttentionLayer2D(tfkl.Layer):
                  dilations=(1, 1),
                  padding='same',
                  preshaped_q=True, **kwargs):
+        """
+            Args:
+                patch_size: size of patches to perform localized attention within
+                num_heads: number of attention heads
+                strides: the stride of the patch window, stride 2 halves output
+                dilations: the dilation of the patch window
+                padding: one of 'same' or 'valid'
+                preshaped_q: True if q matches strided and padded kv
+                    ex: kv: [B, 4, 4, C]
+                        strides = (2,2)
+                        q must be [B,2,2,C]
+        """
         super(LocalizedAttentionLayer2D, self).__init__(**kwargs)
         self.patch_size = patch_size
         self.num_heads = num_heads
